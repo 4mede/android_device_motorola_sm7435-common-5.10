@@ -230,9 +230,6 @@ on post-fs-data
     # Setup folder for aplogd
     mkdir /data/vendor/aplogd 0770 log log
 
-    # Create directory used by chargeonlymode
-    mkdir /data/vendor/chargeonly 0750 root log
-
     # Subsystem RAM-dumps
     mkdir /data/vendor/ss-ram-dumps 0750 system log
     mkdir /data/vendor/ss-ram-dumps/bp-dumps 0750 system log
@@ -306,12 +303,6 @@ on boot
    # Quiet binder logs
    write /sys/module/binder/parameters/debug_mask 0x5
 
-   # Clear cooldown state
-   mkdir /mnt/vendor/persist/chargeonly 0770 system system
-   write /mnt/vendor/persist/chargeonly/cooldown n
-   chown system system /mnt/vendor/persist/chargeonly/cooldown
-   chmod 0660 /mnt/vendor/persist/chargeonly/cooldown
-
    # Change owner ship of l5 laser calibration
    chown camera vendor_tcmd /mnt/vendor/persist/camera/focus/offset_cal
    chmod 0660 /mnt/vendor/persist/camera/focus/offset_cal
@@ -353,28 +344,6 @@ service vendor.bl_logs_copy /vendor/bin/apanic_copy.sh -i
     group log
     oneshot
     disabled
-
-on late-fs-charger
-    class_start early_hal
-    mount_all /vendor/etc/fstab.qcom --late
-    # Boot time fs tune
-    write /sys/block/dm-9/queue/read_ahead_kb 2048
-
-on charger
-    trigger early-fs
-    trigger fs
-    trigger post-fs
-    trigger late-fs-charger
-    trigger post-fs-data
-    trigger moto-charger
-    trigger tks-charger
-
-on moto-charger
-    class_stop main
-    class_stop late_start
-
-on tks-charger && property:persist.sys.tksautoboot=1
-    setprop sys.powerctl "reboot,tks-charger"
 
 service vendor.apanic_annotate /vendor/bin/apanic_save.sh build
     class late_start
@@ -571,22 +540,6 @@ on property:vendor.hw.touch.status="dead"
 
 on property:vendor.hw.touch.status="ready"
     start vendor.touch-ready-sh
-
-service vendor.charge_only_mode /vendor/bin/charge_only_mode
-    user root
-    group graphics system input
-    capabilities SYS_BOOT
-    disabled
-
-service vendor.thermal-com /vendor/bin/thermal-engine-v2 --minimode
-    class main
-    user root
-    group root system oem_2907
-    socket thermal-send-client stream 0666 system oem_2907
-    socket thermal-recv-client stream 0660 system oem_2907
-    socket thermal-recv-passive-client stream 0666 system oem_2907
-    socket thermal-send-rule stream 0660 system oem_2907
-    disabled
 
 on property:vendor.wifi.tethering=false
     write /sys/module/wlan/parameters/sar_mhs disabled
