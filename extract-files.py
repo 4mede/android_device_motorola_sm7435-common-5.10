@@ -70,6 +70,8 @@ blob_fixups: blob_fixups_user_type = {
         'android.hardware.security.sharedsecret-V1-ndk.so',
     )
     .add_needed('android.hardware.security.rkp-V1-ndk.so'),
+    'vendor/bin/init.kernel.post_boot.sh': blob_fixup()
+        .regex_replace('ro.boot.using_zram_from_fstab', 'ro.vendor.zram.swapon'),
     'vendor/lib64/libmotext_inf.so': blob_fixup().remove_needed('libril.so'),
     'system_ext/priv-app/ims/ims.apk': blob_fixup().apktool_patch(
         'ims-patches'

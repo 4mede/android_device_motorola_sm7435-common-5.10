@@ -341,3 +341,6 @@ persist.sys.wfd.virtual=0
 
 # WiFi
 wifi.aware.interface=wifi-aware0
+
+# ZRAM
+ro.vendor.zram.swapon=true
