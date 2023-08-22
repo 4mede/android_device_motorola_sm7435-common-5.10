@@ -51,7 +51,6 @@ smp2p_sleepstate.ko
 glink_pkt.ko
 glink_probe.ko
 pmic_glink.ko
-qti_battery_debug.ko
 charger-ulog-glink.ko
 altmode-glink.ko
 pmic-pon-log.ko
@@ -95,8 +94,6 @@ qcom-i2c-pmic.ko
 nfc_i2c.ko
 sg.ko
 spi-msm-geni.ko
-spmi-pmic-arb-debug.ko
-spmi-glink-debug.ko
 wil6210.ko
 cnss2.ko
 cnss_utils.ko
@@ -144,7 +141,6 @@ qti_devfreq_cdev.ko
 regulator_aop_cdev.ko
 btpower.ko
 bt_fm_slim.ko
-qcom-cpufreq-hw-debug.ko
 qcom_lpm.ko
 leds-aw2016.ko
 leds-qti-tri-led.ko
@@ -179,19 +175,6 @@ qcom-vadc-common.ko
 icc-test.ko
 slimbus.ko
 slim-qcom-ngd-ctrl.ko
-coresight.ko
-coresight-tmc.ko
-coresight-funnel.ko
-coresight-replicator.ko
-coresight-stm.ko
-coresight-cti.ko
-coresight-tpda.ko
-coresight-tpdm.ko
-coresight-csr.ko
-coresight-dummy.ko
-coresight-remote-etm.ko
-coresight-tgu.ko
-coresight-hwevent.ko
 stm_core.ko
 stm_p_basic.ko
 stm_p_ost.ko
