@@ -4,10 +4,6 @@ import /vendor/etc/init/hw/init.mmi.charge_only.rc
 on init
     wait_for_prop vendor.all.modules.ready 1
 
-on fs
-    insmod /vendor/lib/modules/bm_adsp_ulog.ko
-    insmod /vendor/lib/modules/mmi_charger.ko
-
 on post-fs
     # MOT_LED_CALIBRATION
     chown camera camera /mnt/vendor/persist/camera/mot_ledcal
