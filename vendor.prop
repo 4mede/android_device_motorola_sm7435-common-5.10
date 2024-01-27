@@ -235,9 +235,8 @@ ro.nfc.port=I2C
 
 # Perf
 ro.vendor.extension_library=libqti-perfd-client.so
-persist.device_config.runtime_native_boot.iorap_perfetto_enable=true
-ro.vendor.perf-hal.ver=2.3
-ro.vendor.perf.scroll_opt=1
+vendor.pasr.activemode.enabled=false
+vendor.pasr.enabled=false
 
 # QC2
 vendor.qc2audio.per_frame.flac.dec.enabled=true
