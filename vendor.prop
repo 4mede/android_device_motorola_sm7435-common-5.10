@@ -230,9 +230,6 @@ ro.hardware.keystore_desede=true
 debug.c2.use_dmabufheaps=1
 debug.stagefright.c2inputsurface=-1
 
-# NFC
-ro.nfc.port=I2C
-
 # Perf
 ro.vendor.extension_library=libqti-perfd-client.so
 vendor.pasr.activemode.enabled=false
