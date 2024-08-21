@@ -35,9 +35,6 @@ media.stagefright.enable-scan=true
 media.stagefright.thumbnail.prefer_hw_codecs=true
 ro.media.recorder-max-base-layer-fps=60
 
-# Netmgrd
-persist.vendor.data.mode=concurrent
-
 # RTT
 config.disable_rtt=true
 
