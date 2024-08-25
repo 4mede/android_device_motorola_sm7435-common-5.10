@@ -70,4 +70,10 @@
 
     <!-- Whether the device enable the non-standalone (NSA) mode of 5G NR.-->
     <bool name="config_telephony5gNonStandalone">true</bool>
+
+    <string-array name="config_telephonyEuiccDeviceCapabilities" translatable="false">
+        <item>gsm,9</item>
+        <item>utran,9</item>
+        <item>eutran,15</item>
+    </string-array>
 </resources>
