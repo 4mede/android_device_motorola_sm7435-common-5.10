@@ -95,9 +95,7 @@ TARGET_KERNEL_EXT_MODULES += \
     motorola/drivers/misc/utag \
     motorola/drivers/mmi_relay \
     motorola/drivers/moto_f_mass_storage \
-    motorola/drivers/moto_f_usbnet \
     motorola/drivers/misc/mmi_sys_temp \
-    motorola/drivers/watchdogtest \
     motorola/drivers/regulator/wl2864c \
     motorola/drivers/regulator/slg5bm43670 \
     motorola/drivers/sensors \
