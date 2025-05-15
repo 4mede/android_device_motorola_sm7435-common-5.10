@@ -363,6 +363,9 @@ subsystem mem_buf_vm
 # Goodix fingerprint device
 /dev/goodix_fp            0660   system     system
 
+# Focal fingerprint device
+/dev/focaltech_fp         0660   system     system
+
 # EgisTech fingerprint device
 /dev/esfp0                0660   system     system
 
