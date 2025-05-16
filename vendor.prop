@@ -29,6 +29,7 @@ ro.vendor.audio.crystal_talk_record.max_rate=16000
 ro.vendor.audio.crystal_talk_record.supported=false
 ro.vendor.audio.sdk.fluencetype=none
 ro.vendor.audio.sdk.ssr=false
+ro.vendor.audio.stereo_master_volume=1
 vendor.audio.adm.buffering.ms=2
 vendor.audio.c2.preferred=true
 vendor.audio.enable.mirrorlink=false
