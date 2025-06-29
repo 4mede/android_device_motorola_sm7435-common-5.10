@@ -70,9 +70,6 @@ blob_fixups: blob_fixups_user_type = {
         'android.hardware.security.sharedsecret-V1-ndk.so',
     )
     .add_needed('android.hardware.security.rkp-V1-ndk.so'),
-    'vendor/bin/qcc-trd': blob_fixup().replace_needed(
-        'libgrpc++_unsecure.so', 'libgrpc++_unsecure_prebuilt.so'
-    ),
     'vendor/lib64/libmotext_inf.so': blob_fixup().remove_needed('libril.so'),
     'system_ext/priv-app/ims/ims.apk': blob_fixup().apktool_patch(
         'ims-patches'
@@ -84,7 +81,12 @@ blob_fixups: blob_fixups_user_type = {
         'libcodec2_shim.so'
     ),
     'vendor/lib64/sensors.moto.so': blob_fixup().add_needed('libbase_shim.so'),
-    'vendor/etc/media_codecs_cape.xml': blob_fixup().regex_replace(
+    (
+        'vendor/etc/media_codecs_parrot_v0.xml',
+        'vendor/etc/media_codecs_parrot_v1.xml',
+        'vendor/etc/media_codecs_parrot_v2.xml',
+        'vendor/etc/media_codecs_ravelin.xml'
+    ): blob_fixup().regex_replace(
         '.*media_codecs_(google_audio|google_c2|google_telephony|google_video|vendor_audio|dolby_audio).*\n', ''
     ),
 }
