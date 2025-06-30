@@ -382,14 +382,19 @@ PRODUCT_PACKAGES += \
     wpa_supplicant.conf
 
 # WiFi firmware symlinks
-PRODUCT_PACKAGES += \
-    firmware_wlan_mac.bin_symlink \
-    firmware_WCNSS_qcom_cfg.ini_symlink
+TARGET_WIFI_VARIANTS ?= adrastea qca6750
+$(foreach variant,$(TARGET_WIFI_VARIANTS), \
+    $(eval PRODUCT_PACKAGES += \
+        firmware_$(variant)_wlan_mac.bin_symlink \
+        firmware_$(variant)_WCNSS_qcom_cfg.ini_symlink) \
+)
+
+$(foreach variant,$(TARGET_WIFI_VARIANTS), \
+    $(eval PRODUCT_COPY_FILES += \
+        $(LOCAL_PATH)/wifi/$(variant)/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/$(variant)/WCNSS_qcom_cfg.ini) \
+)
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/wifi/kiwi/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/kiwi/WCNSS_qcom_cfg.ini \
-    $(LOCAL_PATH)/wifi/qca6490/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6490/WCNSS_qcom_cfg.ini \
-    $(LOCAL_PATH)/wifi/qca6750/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/qca6750/WCNSS_qcom_cfg.ini \
     $(LOCAL_PATH)/wifi/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/wifi/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf
 

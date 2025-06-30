@@ -202,6 +202,7 @@ cfg80211.ko
 qrtr-smd.ko
 qrtr-mhi.ko
 qrtr-gunyah.ko
+qca_cld3_adrastea.ko
 qca_cld3_qca6750.ko
 q6_notifier_dlkm.ko
 spf_core_dlkm.ko
