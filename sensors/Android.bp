@@ -5,9 +5,9 @@
 //
 
 cc_library_shared {
-    name: "sensors.moto_sm8475",
+    name: "sensors.moto_sm7435",
     defaults: ["hidl_defaults"],
-    init_rc: ["sensors.moto_sm8475.rc"],
+    init_rc: ["sensors.moto_sm7435.rc"],
     srcs: [
         "Sensor.cpp",
         "SensorsSubHal.cpp",
@@ -30,7 +30,7 @@ cc_library_shared {
         "android.hardware.sensors@2.X-multihal",
     ],
     cflags: [
-        "-DLOG_TAG=\"sensors.moto_sm8475\"",
+        "-DLOG_TAG=\"sensors.moto_sm7435\"",
     ],
     vendor: true,
 }

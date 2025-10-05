@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-COMMON_PATH := device/motorola/sm8475-common
+COMMON_PATH := device/motorola/sm7435-common
 
 # Architecture
 TARGET_ARCH := arm64
@@ -46,13 +46,13 @@ BOARD_KERNEL_PAGESIZE := 4096
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_RAMDISK_USE_LZ4 := true
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
-TARGET_KERNEL_SOURCE := kernel/motorola/sm8475
+TARGET_KERNEL_SOURCE := kernel/motorola/sm7435
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
-    vendor/waipio_GKI.config \
-    vendor/ext_config/moto-waipio.config
+    vendor/parrot_GKI.config \
+    vendor/ext_config/moto-parrot.config
 
-TARGET_KERNEL_EXT_MODULE_ROOT := kernel/motorola/sm8475-modules
+TARGET_KERNEL_EXT_MODULE_ROOT := kernel/motorola/sm7435-modules
 
 # Kernel Modules
 BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(COMMON_PATH)/modules.load))
@@ -115,7 +115,7 @@ TARGET_KERNEL_EXT_MODULES += \
 
 # Platform
 BOARD_USES_QCOM_HARDWARE := true
-TARGET_BOARD_PLATFORM := taro
+TARGET_BOARD_PLATFORM := parrot
 
 BOARD_ROOT_EXTRA_SYMLINKS := \
     /vendor/fsg:/fsg
@@ -238,4 +238,4 @@ WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # inherit from the proprietary version
-include vendor/motorola/sm8475-common/BoardConfigVendor.mk
+include vendor/motorola/sm7435-common/BoardConfigVendor.mk
