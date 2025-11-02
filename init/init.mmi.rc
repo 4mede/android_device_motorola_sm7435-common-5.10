@@ -17,9 +17,6 @@ on early-init && property:ro.bootmode=mot-factory
 on early-init && property:ro.vendor.build.motfactory=1
     setprop ro.vendor.mot.factory true
 
-on early-init && property:ro.boot.mmi.bootlog=true
-    start mmi-bootlog-dmesg
-
 on early-init
     # Need to wait for platform path for UTAGs driver to succeed
     wait /dev/block/platform/soc/${ro.boot.bootdevice}/by-name/hw
@@ -489,15 +486,6 @@ service vendor.utag_spy.ship_dirty /vendor/bin/utag_spy ship_dirty ${mot.oobe.ru
 
 on property:mot.oobe.rubbish.screenshot=1
     start vendor.utag_spy.ship_dirty
-
-on init && property:ro.boot.mmi.bootlog=true
-    start mmi-bootlog-logcat
-    start mmi-bootlog
-
-on property:sys.boot_completed=1 && property:ro.boot.mmi.bootlog=true
-    stop mmi-bootlog-dmesg
-    stop mmi-bootlog-logcat
-    stop mmi-bootlog
 
 service vendor.hw_revs /vendor/bin/hardware_revisions.sh
     class late_start
