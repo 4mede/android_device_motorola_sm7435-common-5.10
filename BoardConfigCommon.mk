@@ -86,6 +86,8 @@ TARGET_KERNEL_EXT_MODULES := \
 TARGET_KERNEL_EXT_MODULES += \
     motorola/drivers/mmi_annotate \
     motorola/drivers/mmi_info \
+    motorola/drivers/backlight/aw99703 \
+    motorola/drivers/backlight/ktd3136 \
     motorola/drivers/power/bm_adsp_ulog \
     motorola/drivers/power/mmi_charger \
     motorola/drivers/power/qti_glink_charger \
@@ -93,17 +95,27 @@ TARGET_KERNEL_EXT_MODULES += \
     motorola/drivers/power/bq27426_fg_mmi \
     motorola/drivers/power/sgm4154x_charger_lite \
     motorola/drivers/misc/utag \
+    motorola/drivers/misc/mmi_stow \
     motorola/drivers/mmi_relay \
     motorola/drivers/misc/mmi_sys_temp \
+    motorola/drivers/regulator/dio8015 \
     motorola/drivers/regulator/wl2864c \
+    motorola/drivers/regulator/wl2866d \
     motorola/drivers/regulator/slg5bm43670 \
     motorola/drivers/sensors \
+    motorola/drivers/misc/awinic/sarsensor \
+    motorola/drivers/misc/stk501xx \
     motorola/drivers/misc/sx937x \
     motorola/drivers/input/touchscreen/touchscreen_mmi \
+    motorola/drivers/input/touchscreen/focaltech_0flash_v2_mmi \
+    motorola/drivers/input/touchscreen/ili9882_mmi \
     motorola/drivers/input/touchscreen/goodix_berlin_mmi \
+    motorola/drivers/input/misc/anc_fps_mmi \
+    motorola/drivers/input/misc/fpc_fps_mmi \
     motorola/drivers/input/misc/goodix_fod_mmi \
     motorola/drivers/moto_netopt/con_dfpar \
-    motorola/drivers/nfc/st21nfc
+    motorola/drivers/nfc/st21nfc \
+    motorola/drivers/wlan_antenna
 
 # Platform
 BOARD_USES_QCOM_HARDWARE := true
