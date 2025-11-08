@@ -16,6 +16,8 @@ vendor/lib/rfsa/adsp/bm2n04.bin
 vendor/lib/rfsa/adsp/bm2n05.bin
 vendor/lib/rfsa/adsp/bm2n06.bin
 vendor/lib/rfsa/adsp/bm2n07.bin
+vendor/lib/rfsa/adsp/bm2n08.bin
+vendor/lib/rfsa/adsp/bm2n09.bin
 vendor/lib/rfsa/adsp/bm2n10.bin
 vendor/lib/rfsa/adsp/bm2n11.bin
 vendor/lib/rfsa/adsp/bm2n12.bin
@@ -68,7 +70,12 @@ vendor/lib/rfsa/adsp/libSnpeHtpV69Skel.so
 vendor/lib/rfsa/adsp/libSuperSensor_skel.so
 vendor/lib/rfsa/adsp/libVppFrcQnnHtp.so
 vendor/lib/rfsa/adsp/libVppQnnHtp.so
+vendor/lib/rfsa/adsp/libadsp_jpege_skel.so
+vendor/lib/rfsa/adsp/libapn_dsp_skel.so
+vendor/lib/rfsa/adsp/libbitml_nsp_skel.so
+vendor/lib/rfsa/adsp/libbitml_nsp_v2_skel.so
 vendor/lib/rfsa/adsp/libcalculator_skel.so
+vendor/lib/rfsa/adsp/libcamera_nn_skel.so
 vendor/lib/rfsa/adsp/libcvpdsp_2_1.so
 vendor/lib/rfsa/adsp/libdspCV_skel.so
 vendor/lib/rfsa/adsp/libdsp_streamer_binning.so
@@ -76,6 +83,8 @@ vendor/lib/rfsa/adsp/libevadsp_3_0.so
 vendor/lib/rfsa/adsp/libfastcvadsp.so
 vendor/lib/rfsa/adsp/libfastcvdsp_skel.so
 vendor/lib/rfsa/adsp/libhalide_hexagon_remote_skel.so
+vendor/lib/rfsa/adsp/libhdr_skel.so
+vendor/lib/rfsa/adsp/libmctfengine_skel.so
 vendor/lib/rfsa/adsp/libmobilenet_dsp_frc.so
 vendor/lib/rfsa/adsp/libmobilenet_dsp_frc_networks.so
 vendor/lib/rfsa/adsp/libscveT2T_skel.so
