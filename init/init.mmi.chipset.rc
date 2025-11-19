@@ -1,9 +1,6 @@
 # Charge only mode configuration
 import /vendor/etc/init/hw/init.mmi.charge_only.rc
 
-on early-init
-    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules exfat
-
 on init
     wait_for_prop vendor.all.modules.ready 1
 
