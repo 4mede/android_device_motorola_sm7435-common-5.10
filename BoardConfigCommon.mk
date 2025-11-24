@@ -102,7 +102,7 @@ TARGET_KERNEL_EXT_MODULES += \
     motorola/drivers/input/touchscreen/touchscreen_mmi \
     motorola/drivers/input/touchscreen/goodix_berlin_mmi \
     motorola/drivers/input/misc/goodix_fod_mmi \
-    motorola/drivers/moto_con_dfpar \
+    motorola/drivers/moto_netopt/con_dfpar \
     motorola/drivers/nfc/st21nfc
 
 # Platform
