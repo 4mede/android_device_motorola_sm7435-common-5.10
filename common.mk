@@ -204,7 +204,6 @@ PRODUCT_PACKAGES += \
 
 # Overlays
 PRODUCT_PACKAGES += \
-    DialerResCommon \
     FrameworksResCommon \
     LineageSdkCommon \
     SettingsProviderResCommon \
