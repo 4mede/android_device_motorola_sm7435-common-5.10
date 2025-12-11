@@ -100,6 +100,12 @@ blob_fixups: blob_fixups_user_type = {
         '.*media_codecs_(google_audio|google_c2|google_telephony|google_video|vendor_audio|dolby_audio).*\n',
         '',
     ),
+    (
+        'vendor/lib64/libdpps.so',
+        'vendor/lib64/libsnapdragoncolor-manager.so',
+    ): blob_fixup().replace_needed(
+        'libtinyxml2.so', 'libtinyxml2-v34.so'
+    ),
 }
 
 module = ExtractUtilsModule(
