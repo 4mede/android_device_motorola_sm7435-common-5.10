@@ -167,11 +167,6 @@
         <fqname>@1.1::IEmbms/embmsslServer0</fqname>
     </hal>
     <hal format="hidl">
-        <name>vendor.qti.hardware.iop</name>
-        <transport>hwbinder</transport>
-        <fqname>@2.0::IIop/default</fqname>
-    </hal>
-    <hal format="hidl">
         <name>vendor.qti.hardware.mwqemadapter</name>
         <transport>hwbinder</transport>
         <fqname>@1.0::IMwqemAdapter/MwqemAdapter</fqname>
@@ -300,11 +295,6 @@
     <hal format="hidl" override="true">
         <name>vendor.qti.memory.pasrmanager</name>
         <transport>hwbinder</transport>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.qesdhal</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.1::IQesdhal/default</fqname>
     </hal>
     <hal format="hidl">
         <name>vendor.qti.qspmhal</name>
