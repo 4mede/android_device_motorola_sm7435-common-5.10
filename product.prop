@@ -29,6 +29,9 @@ ro.qcom.ims.use_moto_vt_ext=true
 # Media
 media.stagefright.audio.deep=false
 
+# RKP
+remote_provisioning.enable_rkpd=true
+remote_provisioning.hostname=remoteprovisioning.googleapis.com
+
 # System server
 arm64.memtag.process.system_server=off
-
