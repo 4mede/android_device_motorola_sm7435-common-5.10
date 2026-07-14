@@ -51,6 +51,8 @@ lib_fixups: lib_fixups_user_type = {
 blob_fixups: blob_fixups_user_type = {
     'system_ext/etc/permissions/moto-telephony.xml': blob_fixup()
         .regex_replace('/system/', '/system_ext/'),
+    ('system_ext/etc/seccomp_policy/tcmd.policy', 'vendor/etc/seccomp_policy/qsap_qapeservice.policy', 'vendor/etc/seccomp_policy/syshealthmon.policy'): blob_fixup()
+        .add_line_if_missing('lseek: 1'),
     'system_ext/lib64/libwfdnative.so': blob_fixup()
         .add_needed('libinput_shim.so'),
     'system_ext/lib64/vendor.qti.hardware.qccsyshal@1.2-halimpl.so': blob_fixup()
