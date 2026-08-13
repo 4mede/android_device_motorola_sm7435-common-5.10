@@ -1,4 +1,4 @@
-# All unpinned blobs below are extracted from 16 W1UANS36H.29-25-2-4 97493-125cc1 release-keys.
+# All unpinned blobs below are extracted from 16 W1UUS36H.21-14-4-1-5 1c8e4-05a35 release-keys.
 
 # ADSP
 vendor/bin/adsprpcd
