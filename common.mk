@@ -110,6 +110,14 @@ PRODUCT_PACKAGES += \
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey
+    
+# Extras
+$(call inherit-product, vendor/google/gms/config.mk)
+
+$(call inherit-product, vendor/custom/common.mk)
+
+PRODUCT_PACKAGES += \
+    RemovePackages
 
 # fastbootd
 PRODUCT_PACKAGES += \
