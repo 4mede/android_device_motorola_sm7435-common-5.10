@@ -331,9 +331,6 @@ PRODUCT_PACKAGES += \
     qti_telephony_utils_prd.xml \
     telephony-ext
 
-PRODUCT_PACKAGES += \
-    qcrilNrDb_vendor
-
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
