@@ -20,8 +20,14 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 # Enforce generic ramdisk allow list
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
 
-# Add common definitions for Qualcomm
-$(call inherit-product, hardware/qcom-caf/common/common.mk)
+# Platform
+TARGET_BOARD_PLATFORM := parrot
+
+# ADB
+PRODUCT_PROPERTY_OVERRIDES +=\
+    ro.adb.secure=0 \
+    ro.debuggable=1 \
+    persist.sys.usb.config=adb
 
 # A/B
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
@@ -75,7 +81,7 @@ PRODUCT_PACKAGES += \
     sound_trigger.primary.parrot \
     vendor.qti.hardware.AGMIPC@1.0-service
 
-AUDIO_HAL_DIR := hardware/qcom-caf/sm8450/audio/primary-hal
+AUDIO_HAL_DIR := vendor/qcom/opensource/audio-hal/primary-hal
 
 PRODUCT_COPY_FILES += \
     $(AUDIO_HAL_DIR)/configs/common/codec2/service/1.0/c2audio.vendor.base-arm.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/c2audio.vendor.base-arm.policy \
@@ -96,6 +102,56 @@ PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/bluetooth_audio_policy_configuration_7_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_audio_policy_configuration_7_0.xml \
     frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml
+    
+PRODUCT_ODM_PROPERTIES += \
+    aaudio.mmap_policy=1 \
+    vendor.audio.offload.buffer.size.kb=256
+
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.audio.auto.scenario=true \
+    persist.vendor.audio.misound.disable=true \
+    ro.audio.monitorRotation=true \
+    ro.audio.spatializer_enabled=true \
+    ro.audio.spatializer_transaural_enabled_default=false \
+    ro.config.alarm_vol_steps=15 \
+    ro.config.system_vol_steps=15 \
+    ro.config.vc_call_vol_default=9 \
+    ro.config.vc_call_vol_steps=11 \
+    ro.vendor.audio.camera.loopback.support=false \
+    ro.vendor.audio.feature.spatial=7 \
+    ro.vendor.audio.gain.support=true \
+    ro.vendor.audio.soundtrigger.appdefine.cnn.level=45 \
+    ro.vendor.audio.soundtrigger.appdefine.gmm.level=65 \
+    ro.vendor.audio.soundtrigger.appdefine.gmm.user.level=55 \
+    ro.vendor.audio.soundtrigger.appdefine.vop.level=10 \
+    ro.vendor.audio.soundtrigger.xanzn.cnn.level=158 \
+    ro.vendor.audio.soundtrigger.xanzn.gmm.level=80 \
+    ro.vendor.audio.soundtrigger.xanzn.gmm.user.level=80 \
+    ro.vendor.audio.soundtrigger.xanzn.vop.level=41 \
+    ro.vendor.audio.soundtrigger.xatx.cnn.level=95 \
+    ro.vendor.audio.soundtrigger.xatx.gmm.level=54 \
+    ro.vendor.audio.soundtrigger.xatx.gmm.user.level=54 \
+    ro.vendor.audio.soundtrigger.xatx.vop.level=0 \
+    ro.vendor.audio.support.sound.id=true
+
+# Bluetooth
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.sys.fflag.override.settings_bluetooth_hearing_aid=true \
+    persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac-aptxadaptiver2 \
+    persist.vendor.qcom.bluetooth.a2dp_mcast_test.enabled=false \
+    persist.vendor.qcom.bluetooth.aac_frm_ctl.enabled=true \
+    persist.vendor.qcom.bluetooth.aac_vbr_ctl.enabled=true \
+    persist.vendor.qcom.bluetooth.aptxadaptiver2_1_support=true \
+    persist.vendor.qcom.bluetooth.scram.enabled=false \
+    persist.vendor.qcom.bluetooth.twsp_state.enabled=false \
+    persist.vendor.service.bdroid.soc.alwayson=true \
+    ro.vendor.bluetooth.csip_qti=true
+    
+# Camera
+PRODUCT_VENDOR_PROPERTIES += \
+    camera.disable_zsl_mode=1 \
+    ro.camera.enableCamera1MaxZsl=1 \
+    persist.vendor.camera.privapp.list=com.motorola.camera3
 
 # Display
 PRODUCT_PACKAGES += \
@@ -105,17 +161,43 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.display.allocator-service \
     vendor.qti.hardware.display.composer-service \
     vendor.qti.hardware.display.demura-service
+    
+PRODUCT_ODM_PROPERTIES += \
+    debug.sf.enable_hwc_vds=0 \
+    persist.sys.sf.color_mode=0 \
+    ro.surface_flinger.set_idle_timer_ms?=1100 \
+    ro.surface_flinger.set_touch_timer_ms?=200 \
+    ro.surface_flinger.supports_background_blur=0 \
+    vendor.display.disable_3d_adaptive_tm=0 \
+    vendor.display.vds_allow_hwc=1
+
+PRODUCT_VENDOR_PROPERTIES += \
+    debug.sf.frame_rate_multiple_threshold=120 \
+    persist.sys.sf.native_mode=258 \
+    ro.vendor.display.hwc_thermal_dimming=false \
+    ro.vendor.display.nature_mode.enable=true \
+    ro.vendor.histogram.enable=true \
+    ro.vendor.sre.enable=true
+    
+# DPM
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.dpm.vndr.feature=1 \
+    persist.vendor.dpm.vndr.halservice.enable=1 \
+    persist.vendor.dpm.vndr.idletimer.mode=default
 
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey
+  
+PRODUCT_VENDOR_PROPERTIES += \
+    drm.service.enabled=true
     
 # Extras
-$(call inherit-product, vendor/google/gms/config.mk)
-
 $(call inherit-product, vendor/custom/common.mk)
 
 $(call inherit-product, hardware/dolby/dolby.mk)
+
+$(call inherit-product, vendor/aospa-priv/keys/keys.mk)
 
 PRODUCT_PACKAGES += \
     RemovePackages
@@ -124,29 +206,23 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.1-impl-mock \
     fastbootd
+    
+# FUSE
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.sys.fuse.passthrough.enable=true
 
 # GPS
-PRODUCT_PACKAGES += \
-    android.hardware.gnss@2.1-impl-qti \
-    android.hardware.gnss-aidl-impl-qti \
-    android.hardware.gnss-aidl-service-qti \
-    gnss@2.0-base.policy \
-    gnss@2.0-xtra-daemon.policy \
-    libbatching \
-    libgeofencing \
-    libgnss \
-    libloc_socket
-
-PRODUCT_PACKAGES += \
-    batching.conf \
-    gnss_antenna_info.conf \
-    gps.conf \
-    izat.conf
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/gps.conf:$(TARGET_COPY_OUT_VENDOR)/etc/gps.conf
 
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health-service.qti \
     android.hardware.health-service.qti_recovery
+    
+# Incremental FS
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.incremental.enable=1
 
 # Init
 PRODUCT_PACKAGES += \
@@ -156,27 +232,19 @@ PRODUCT_PACKAGES += \
     init.mmi.charge_only.rc \
     init.mmi.chipset.rc \
     init.mmi.rc \
-    init.qcom.rc \
-    init.qcom.recovery.rc \
     init.target.rc \
-    ueventd.qcom.rc \
-    init.class_main.sh \
+    ueventd.sm7435.rc \
     init.mmi.boot.sh \
     init.mmi.touch.sh \
-    init.oem.hw.sh \
-    init.qcom.class_core.sh \
-    init.qcom.early_boot.sh \
-    init.qcom.post_boot.sh \
-    init.qcom.sh
-
-# IPACM
-PRODUCT_PACKAGES += \
-    ipacm \
-    IPACM_cfg.xml \
-    IPACM_Filter_cfg.xml
-
+    init.oem.hw.sh
+    
 # Kernel
 PRODUCT_ENABLE_UFFD_GC := true
+
+# Keymaster
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.hardware.keystore_desede=true \
+    vendor.gatekeeper.disable_spu=true
 
 # Lineage Health
 PRODUCT_PACKAGES += \
@@ -192,16 +260,22 @@ PRODUCT_PACKAGES += \
 $(call soong_config_set_bool,livedisplay_sdm,enable_dm,false)
 $(call soong_config_set_bool,livedisplay_sysfs,enable_se,true)
 
-# MotoActions
+# Media
+PRODUCT_VENDOR_PROPERTIES += \
+    debug.stagefright.c2inputsurface=-1 \
+    ro.mediaserver.64b.enable=true \
+    vendor.media.omx=0
+
+# Motorola
 PRODUCT_PACKAGES += \
     MotoActions \
     MotoCommonOverlay
+    
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.mot.build.customerid=global
 
 # Mountpoints
 PRODUCT_PACKAGES += \
-    vendor_bt_firmware_mountpoint \
-    vendor_dsp_mountpoint \
-    vendor_firmware_mnt_mountpoint \
     vendor_fsg_mountpoint \
     vendor_super_fsg_mountpoint \
     vendor_super_modem_mountpoint
@@ -213,7 +287,6 @@ PRODUCT_PACKAGES += \
     LineageSdkCommon \
     SettingsProviderResCommon \
     SystemUIResCommon \
-    TelephonyResCommon \
     WifiResCommon \
     FrameworksResTarget \
     NcmTetheringOverlay \
@@ -224,9 +297,6 @@ PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml \
     frameworks/native/data/etc/android.hardware.camera.concurrent.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.concurrent.xml \
     frameworks/native/data/etc/android.hardware.camera.external.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.external.xml \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
@@ -234,33 +304,14 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.full.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.full.xml \
     frameworks/native/data/etc/android.hardware.camera.raw.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.raw.xml \
     frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml \
-    frameworks/native/data/etc/android.hardware.location.gps.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
     frameworks/native/data/etc/android.hardware.nfc.hcef.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hcef.xml \
     frameworks/native/data/etc/android.hardware.nfc.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.uicc.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml \
-    frameworks/native/data/etc/android.hardware.opengles.aep.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.opengles.aep.xml \
     frameworks/native/data/etc/android.hardware.se.omapi.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.se.omapi.uicc.xml \
-    frameworks/native/data/etc/android.hardware.telephony.cdma.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.cdma.xml \
     frameworks/native/data/etc/android.hardware.telephony.euicc.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/android.hardware.telephony.euicc.xml \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/native/data/etc/android.hardware.telephony.ims.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.ims.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.host.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.compute-0.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level-1.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version-1_1.xml \
-    frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml \
-    frameworks/native/data/etc/android.hardware.wifi.passpoint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.passpoint.xml \
-    frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.software.device_id_attestation.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.device_id_attestation.xml \
-    frameworks/native/data/etc/android.software.ipsec_tunnels.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.ipsec_tunnels.xml \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml \
-    frameworks/native/data/etc/android.software.opengles.deqp.level-2021-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.opengles.deqp.level.xml \
-    frameworks/native/data/etc/android.software.sip.voip.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/android.software.verified_boot.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.verified_boot.xml \
-    frameworks/native/data/etc/android.software.vulkan.deqp.level-2021-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.vulkan.deqp.level.xml \
     frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_parrot/android.hardware.sensor.accelerometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.barometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_parrot/android.hardware.sensor.barometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.compass.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_parrot/android.hardware.sensor.compass.xml \
@@ -287,12 +338,40 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sysconfig/hotword-hiddenapi-package-whitelist.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/sysconfig/hotword-hiddenapi-package-whitelist.xml
 
 # Power
+TARGET_PROVIDES_POWERHAL := true
+
 PRODUCT_PACKAGES += \
     android.hardware.power-service.lineage-libperfmgr \
     libqti-perfd-client
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/powerhint.json:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.json
+    
+# QTI Components
+TARGET_COMMON_QTI_COMPONENTS := \
+    adreno \
+    alarm \
+    audio \
+    av \
+    bt \
+    display \
+    gps \
+    init \
+    media \
+    overlay \
+    perf \
+    telephony \
+    usb \
+    wfd \
+    wlan
+    
+# Radio
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.data.iwlan.enable=true \
+    persist.vendor.radio.add_power_save=1 \
+    persist.vendor.radio.dynamic_sar=1 \
+    persist.vendor.radio.redir_party_num=0 \
+    ro.vendor.radio.build_profile=v-stable
 
 # RFS MSM MPSS symlinks
 PRODUCT_PACKAGES += \
@@ -300,51 +379,23 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    sensors.moto_ext \
+    sensors.motorola \
     android.hardware.sensors-service.multihal
+    
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.sensors.enable.mag_filter=true
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
     hardware/google/interfaces \
     hardware/google/pixel \
-    hardware/lineage/interfaces/power-libperfmgr \
     hardware/motorola \
-    hardware/qcom-caf/common/libqti-perfd-client
-
-# Telephony
-PRODUCT_PACKAGES += \
-    extphonelib \
-    extphonelib-product \
-    extphonelib.xml \
-    extphonelib_product.xml \
-    MotoEuicc \
-    MotoNrEnabler \
-    ims-ext-common \
-    ims_ext_common.xml \
-    qti-telephony-hidl-wrapper \
-    qti_telephony_hidl_wrapper.xml \
-    qti-telephony-hidl-wrapper-prd \
-    qti_telephony_hidl_wrapper_prd.xml \
-    qti-telephony-utils \
-    qti_telephony_utils.xml \
-    qti-telephony-utils-prd \
-    qti_telephony_utils_prd.xml \
-    telephony-ext
-
-PRODUCT_BOOT_JARS += \
-    telephony-ext
-
+    vendor/aospa/interfaces/power-libperfmgr
+    
 # Thermal
 PRODUCT_PACKAGES += \
     android.hardware.thermal-service.qti
-
-# Touch
-PRODUCT_PACKAGES += \
-    vendor.lineage.touch-service.motorola \
-    vendor.lineage.touch-service.moto_sm7435
-
-$(call soong_config_set, MOTOROLA_TOUCH, HIGH_TOUCH_POLLING_PATH, /sys/class/touchscreen/primary/interpolation)
 
 # Update engine
 PRODUCT_PACKAGES += \
@@ -365,10 +416,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_SOONG_NAMESPACES += vendor/qcom/opensource/usb/etc
 
-# Vendor service manager
-PRODUCT_PACKAGES += \
-    vndservicemanager
-
 # Vibrator
 PRODUCT_PACKAGES += \
     vendor.qti.hardware.vibrator.service
@@ -377,11 +424,8 @@ PRODUCT_COPY_FILES += \
     vendor/qcom/opensource/vibrator/excluded-input-devices.xml:$(TARGET_COPY_OUT_VENDOR)/etc/excluded-input-devices.xml
 
 # VINTF
-DEVICE_FRAMEWORK_MANIFEST_FILE += device/motorola/sm7435-common/vintf/framework_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
-    hardware/motorola/vintf/device_framework_matrix.xml \
-    hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml
-DEVICE_MATRIX_FILE := hardware/qcom-caf/common/compatibility_matrix.xml
+    hardware/motorola/vintf/device_framework_matrix.xml
 DEVICE_MANIFEST_FILE += device/motorola/sm7435-common/vintf/manifest.xml
 
 # WiFi

@@ -1,0 +1,191 @@
+# Copyright (C) 2021 The Android Open Source Project
+#           (C) 2022-2024 Paranoid Android
+#
+# SPDX-License-Identifier: Apache-2.0
+
+import /vendor/etc/init/hw/init.mi_thermald.rc
+import /vendor/etc/init/hw/init.batterysecret.rc
+
+on early-boot
+    # SSR Setup
+    write /sys/class/remoteproc/remoteproc0/recovery enabled
+    write /sys/class/remoteproc/remoteproc1/recovery enabled
+    write /sys/class/remoteproc/remoteproc2/recovery enabled
+    write /sys/class/remoteproc/remoteproc3/recovery enabled
+    write /sys/kernel/cnss/recovery 1
+
+on boot
+    # Thermal
+    chown system system /sys/class/thermal/thermal_message/sconfig
+    chown system system /sys/class/thermal/thermal_message/charger_temp
+    chown system system /sys/class/thermal/thermal_message/board_sensor_temp_comp
+    chown system system /sys/class/thermal/thermal_message/cpu_nolimit_temp
+    chown system system /sys/class/thermal/thermal_message/balance_mode
+    chown cameraserver cameraserver /sys/class/thermal/thermal_message/flash_state
+
+    # Modem
+    chmod 0777 /dev/smd8
+    chown radio radio /dev/smd8
+    mkdir /data/vendor/modem 0777 radio radio
+
+    # Touchscreen
+    chown system system /dev/xiaomi-touch
+    chmod 0660 /dev/xiaomi-touch
+    chown system system /sys/class/touch/touch_dev/palm_sensor
+    chmod 0664 /sys/class/touch/touch_dev/palm_sensor
+
+    # Fingerprint
+    chmod 0666 /dev/goodix_fp
+    chown system system /dev/goodix_fp
+    chmod 0664 /sys/bus/platform/devices/soc:xiaomi_fingerprint/fingerdown
+    chown system graphics /sys/bus/platform/devices/soc:xiaomi_fingerprint/fingerdown
+
+    # Torch
+    chown cameraserver cameraserver /sys/class/leds/led:torch_0/brightness
+    chown cameraserver cameraserver /sys/class/leds/led:torch_1/brightness
+    chown cameraserver cameraserver /sys/class/leds/led:torch_2/brightness
+    chown cameraserver cameraserver /sys/class/leds/led:torch_3/brightness
+
+on fs
+    mkdir /mnt/vendor/persist/haptics 0755 system system
+    mkdir /mnt/vendor/persist/audio 0755 system system
+    mkdir /mnt/vendor/persist/qca6490/ 0700 system system
+    mkdir /mnt/vendor/persist/camera 0755 system cameraserver
+
+    # Mount logfs
+    mkdir /dev/logfs 0771 system system
+    mount vfat /dev/block/bootdevice/by-name/logfs /dev/logfs noatime umask=006,uid=1000,gid=1000
+    mount ext4 /dev/block/bootdevice/by-name/rescue /mnt/rescue noatime
+
+on post-fs
+    chown system system /sys/class/backlight/panel0-backlight/brightness
+    chown system system /sys/class/backlight/panel0-backlight/max_brightness
+
+on post-fs-data
+    # Camera
+    mkdir /data/vendor/camera 0777 camera camera
+    mkdir /data/vendor/camera/offlinelog 0777 cameraserver audio
+    mkdir /data/vendor/perfspy 0775 camera camera
+    chmod 0666 /dev/camlog
+
+    # Fingerprint
+    mkdir /data/vendor/fpc 0770 system system
+    mkdir /data/vendor/fpdump 0770 system system
+    mkdir /data/vendor/goodix 0770 system system
+    mkdir /mnt/vendor/persist/fpc 0770 system system
+    mkdir /mnt/vendor/persist/goodix 0770 system system
+
+    # nv_mac
+    mkdir /data/vendor/mac_addr 0770 system wifi
+
+    # qrtr-lookup
+    mkdir /data/vendor/qrtr 0775 system system
+
+    # Thermal
+    mkdir /data/vendor/thermal 0771 root system
+    mkdir /data/vendor/thermal/config 0771 root system
+
+    # IR
+    chmod 0660 /dev/ir_spi
+    chown system system /dev/ir_spi
+
+    # GPS
+    mkdir /data/vendor/qxwz 0770 gps system
+
+    # Display feature sysfs node
+    chown system system /sys/class/mi_display/disp-DSI-0/disp_param
+    chmod 0664 /sys/class/mi_display/disp-DSI-0/disp_param
+    chown system system /sys/class/mi_display/disp-DSI-0/mipi_rw
+    chmod 0664 /sys/class/mi_display/disp-DSI-0/mipi_rw
+    chown system system /sys/class/mi_display/disp-DSI-0/panel_info
+    chmod 0444 /sys/class/mi_display/disp-DSI-0/panel_info
+    chown system system /sys/class/mi_display/disp-DSI-0/wp_info
+    chmod 0444 /sys/class/mi_display/disp-DSI-0/wp_info
+    chown system system /sys/class/mi_display/disp-DSI-0/dynamic_fps
+    chmod 0444 /sys/class/mi_display/disp-DSI-0/dynamic_fps
+    chown system system /sys/class/mi_display/disp-DSI-0/doze_brightness
+    chmod 0664 /sys/class/mi_display/disp-DSI-0/doze_brightness
+    chown system system /sys/class/mi_display/disp-DSI-0/brightness_clone
+    chmod 0664 /sys/class/mi_display/disp-DSI-0/brightness_clone
+    chown system system /sys/class/mi_display/disp-DSI-0/max_brightness_clone
+    chmod 0664 /sys/class/mi_display/disp-DSI-0/max_brightness_clone
+    chown system system /sys/class/mi_display/disp-DSI-1/brightness_clone
+    chmod 0664 /sys/class/mi_display/disp-DSI-1/brightness_clone
+    chown system system /sys/class/mi_display/disp-DSI-1/max_brightness_clone
+    chmod 0664 /sys/class/mi_display/disp-DSI-1/max_brightness_clone
+
+on property:ro.boot.hwversion=*
+    setprop ro.boot.hardware.revision ${ro.boot.hwc}_${ro.boot.hwlevel}_${ro.boot.hwversion}
+
+service init-xiaomi-taro-sh /vendor/bin/init.xiaomi_taro.sh
+    class main
+    user system
+    group system
+    oneshot
+
+service batterysecret /vendor/bin/batterysecret
+    class last_start
+    user root
+    group system system wakelock
+    disabled
+    override
+
+service vendor.nv_mac /vendor/bin/nv_mac
+    class late_start
+    user system
+    group system inet net_admin wifi net_raw
+    oneshot
+
+service mi_thermald /vendor/bin/mi_thermald
+    class main
+    user root
+    group system
+    override
+
+service qrtr-lookup /vendor/bin/qrtr-lookup
+    class core
+    user system
+    group system
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start qrtr-lookup
+
+service citsensor-hal-2-0 /vendor/bin/hw/vendor.xiaomi.sensor.citsensorservice@2.0-service
+    class late_start
+    user system
+    group system input
+    override
+    task_profiles ServiceCapacityLow
+
+service ssgqmigd /vendor/bin/ssgqmigd64
+    override
+    class late_start
+    user radio
+    group radio gps system
+    socket ssgqmig seqpacket 0660 radio inet
+
+service vendor.audio-hal /vendor/bin/hw/android.hardware.audio.service_64
+    override
+    class hal
+    user audioserver
+    # media gid needed for /dev/fm (radio) and for /data/misc/media (tee)
+    group audio camera drmrpc inet media mediadrm net_bt net_bt_admin net_bw_acct oem_2901 wakelock context_hub
+    capabilities BLOCK_SUSPEND SYS_NICE
+    # setting RLIMIT_RTPRIO allows binder RT priority inheritance
+    rlimit rtprio 10 10
+    ioprio rt 4
+    task_profiles ProcessCapacityHigh HighPerformance
+    onrestart restart audioserver
+    socket audio_us_socket_0 seqpacket 0666 system system
+
+service vendor.sensors-hal-multihal /vendor/bin/hw/android.hardware.sensors-service.multihal
+    override
+    class hal
+    user system
+    group system wakelock context_hub input uhid
+    task_profiles ServiceCapacityLow
+    capabilities BLOCK_SUSPEND
+    rlimit rtprio 10 10
+    socket audio_us_socket_1 seqpacket 0666 system system
