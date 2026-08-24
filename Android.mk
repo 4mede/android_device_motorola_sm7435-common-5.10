@@ -19,4 +19,15 @@ LOCAL_PATH := $(call my-dir)
 ifneq ($(filter avatrn boston cusco genevn hakone,$(TARGET_DEVICE)),)
 subdir_makefiles=$(call first-makefiles-under,$(LOCAL_PATH))
 $(foreach mk,$(subdir_makefiles),$(info including $(mk) ...)$(eval include $(mk)))
+
+include $(CLEAR_VARS)
+
+CNE_APP_SYMLINKS := $(TARGET_OUT_VENDOR)/app/CneApp/lib/arm64
+$(CNE_APP_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
+	@echo "Creating CneApp symlinks: $@"
+	@mkdir -p $@
+	$(hide) ln -sf /vendor/lib64/libvndfwk_detect_jni.qti.so $@/libvndfwk_detect_jni.qti.so
+
+ALL_DEFAULT_INSTALLED_MODULES += $(CNE_APP_SYMLINKS)
+
 endif
