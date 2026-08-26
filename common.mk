@@ -386,6 +386,10 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
 DEVICE_MATRIX_FILE := hardware/qcom-caf/common/compatibility_matrix.xml
 DEVICE_MANIFEST_FILE += device/motorola/sm7435-common/vintf/manifest.xml
 
+# ViPER4Android FX
+PRODUCT_PACKAGES += \
+    ViPER4AndroidFX
+
 # WiFi
 PRODUCT_PACKAGES += \
     android.hardware.wifi-service \
