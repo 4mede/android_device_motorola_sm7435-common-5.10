@@ -112,8 +112,6 @@ PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey
     
 # Extras
-$(call inherit-product, vendor/google/gms/config.mk)
-
 $(call inherit-product, vendor/custom/common.mk)
 
 PRODUCT_PACKAGES += \
@@ -177,20 +175,6 @@ PRODUCT_PACKAGES += \
 # Kernel
 PRODUCT_ENABLE_UFFD_GC := true
 
-# Lineage Health
-PRODUCT_PACKAGES += \
-    vendor.lineage.health-service.default
-
-$(call soong_config_set,lineage_health,charging_control_charging_path,/sys/module/qpnp_adaptive_charge/parameters/charging_enabled)
-
-# LiveDisplay
-PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay-service.sdm \
-    vendor.lineage.livedisplay-service.sysfs
-
-$(call soong_config_set_bool,livedisplay_sdm,enable_dm,false)
-$(call soong_config_set_bool,livedisplay_sysfs,enable_se,true)
-
 # MotoActions
 PRODUCT_PACKAGES += \
     MotoActions \
@@ -208,8 +192,7 @@ PRODUCT_PACKAGES += \
 # Overlays
 PRODUCT_PACKAGES += \
     FrameworksResCommon \
-    LineageApertureAppCommon \
-    LineageSdkCommon \
+    MikuDeviceSettingsOverlay \
     SettingsProviderResCommon \
     SystemUIResCommon \
     TelephonyResCommon \
@@ -336,13 +319,6 @@ PRODUCT_BOOT_JARS += \
 # Thermal
 PRODUCT_PACKAGES += \
     android.hardware.thermal-service.qti
-
-# Touch
-PRODUCT_PACKAGES += \
-    vendor.lineage.touch-service.motorola \
-    vendor.lineage.touch-service.moto_sm7435
-
-$(call soong_config_set, MOTOROLA_TOUCH, HIGH_TOUCH_POLLING_PATH, /sys/class/touchscreen/primary/interpolation)
 
 # Update engine
 PRODUCT_PACKAGES += \

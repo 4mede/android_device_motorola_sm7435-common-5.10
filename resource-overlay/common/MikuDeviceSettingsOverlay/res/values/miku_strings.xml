@@ -4,6 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-    <!-- Enable auxiliary cameras selector. -->
-    <bool name="config_enableAuxCameras">true</bool>
+    <!-- Maintainer name -->
+    <string name="miku_maintainer_uri" translatable="false">t.me/motorolasupportchat</string>
 </resources>

@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "LineageApertureAppCommon",
-    vendor: true,
+    name: "MikuDeviceSettingsOverlay",
+    product_specific: true,
 }
