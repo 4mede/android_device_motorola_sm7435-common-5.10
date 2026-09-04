@@ -175,6 +175,10 @@ PRODUCT_PACKAGES += \
 # Kernel
 PRODUCT_ENABLE_UFFD_GC := true
 
+# Media
+PRODUCT_PACKAGES += \
+    libpalclient
+
 # MotoActions
 PRODUCT_PACKAGES += \
     MotoActions \
